@@ -88,4 +88,6 @@ print(best.alpha)
 print("The error for this alpha was:")
 print(min.error)
 
+print("Model training done")
+
 

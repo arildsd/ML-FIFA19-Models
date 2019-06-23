@@ -100,6 +100,8 @@ print("The square error on the test set for a glm regression with is:")
 print(mean((general.pred-ytest)^2))
 
 # NON LINEAR MODELS
+
+print("///////////////////DECISION TREES///////////////////")
 # Decision trees
 # Pick hyper parameters with 10 fold cross validation
 best_depth = -1
@@ -122,3 +124,22 @@ rpart.plot(fit, type = 3, digits = 3, fallen.leaves = TRUE)
 tree_pred = predict(fit, test)
 print(mean((tree_pred-ytest)^2))
 
+
+# Neural network
+
+print("///////////////////NEURAL NETWORK///////////////////")
+
+library(neuralnet)
+
+nn <- neuralnet(value~.,data=df, subset=train, hidden=c(2,1), linear.output=TRUE, threshold=0.01)
+
+# Visualize the network
+plot(nn)
+# Results in matrix form
+nn$result.matrix
+
+results <- data.frame(actual = test$consumption, prediction = nn.results$net.result)
+results
+
+
+print("Model training ended")

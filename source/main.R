@@ -15,6 +15,7 @@ DATA_FILE_PATH = "../data/processed.csv"
 
 # Load the pre-processed data
 df = read.csv(DATA_FILE_PATH)
+
 #print(colnames(df))
 x = model.matrix(value~., df)[,-1]
 y = df$value
@@ -112,34 +113,18 @@ for (depth in 2:20){
 
 }
 
+printcp(fit) # display the results
 
-printcp(fit) # display the results 
-plotcp(fit) # visualize cross-validation results 
+plotcp(fit) # visualize cross-validation results
 summary(fit) # detailed summary of splits
 
-# plot tree 
+# plot tree
 rpart.plot(fit, type = 3, digits = 3, fallen.leaves = TRUE)
 
-# Predict 
+# Predict
 tree_pred = predict(fit, test)
 print(mean((tree_pred-ytest)^2))
 
-
-# Neural network
-
-print("///////////////////NEURAL NETWORK///////////////////")
-
-library(neuralnet)
-
-nn <- neuralnet(value~.,data=df, subset=train, hidden=c(2,1), linear.output=TRUE, threshold=0.01)
-
-# Visualize the network
-plot(nn)
-# Results in matrix form
-nn$result.matrix
-
-results <- data.frame(actual = test$consumption, prediction = nn.results$net.result)
-results
 
 
 print("Model training ended")
